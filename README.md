@@ -3,4 +3,6 @@
 one nodejs application for produce data or send data to rabbitmq and another nodejs application for receiving data from rabbitmq.
 
 To run rabbitmq and two nodejs application, we need to install docker-compose and run this command.
-`docker-compose up`
+```Docker
+docker-compose up
+```
