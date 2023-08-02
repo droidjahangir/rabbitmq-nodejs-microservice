@@ -1,0 +1,30 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:management # Use the official RabbitMQ image with management plugin
+    ports:
+      - "5672:5672" # RabbitMQ default port
+      - "15672:15672" # RabbitMQ management plugin port
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq # Persist RabbitMQ data
+
+  provider_node_app:
+    build: ./provider-app
+    depends_on:
+      - rabbitmq
+    ports:
+      - "4001:4001" # Replace 3000 with the port your Node.js app is listening on
+    environment:
+      - RABBITMQ_HOST=rabbitmq # Connect Node.js app to RabbitMQ service
+
+  client_node_app:
+    build: ./client-app
+    depends_on:
+      - rabbitmq
+    ports:
+      - "4002:4002" # Replace 3000 with the port your Node.js app is listening on
+    environment:
+      - RABBITMQ_HOST=rabbitmq # Connect Node.js app to RabbitMQ service
+
+volumes:
+  rabbitmq_data:
